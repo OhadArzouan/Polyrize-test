@@ -1,0 +1,25 @@
+# serverless.yml
+
+service: serverless-norm
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
+
+custom:
+  wsgi:
+    app: app.app
+    packRequirements: false
+
+provider:
+  name: aws
+  runtime: python3.7
+  stage: master
+  region: us-east-1
+
+functions:
+  app:
+    handler: handler.lambda_handler
+    events:
+      - http: POST /api/v1/norm/
+      - http: 'POST {proxy+}'
